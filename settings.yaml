@@ -1,0 +1,4 @@
+fields:
+  ignore_urls:
+    type: list
+    display: 'Ignored URLs'

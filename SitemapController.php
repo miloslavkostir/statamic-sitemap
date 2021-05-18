@@ -10,6 +10,9 @@ use Statamic\Extend\Controller;
 
 class SitemapController extends Controller
 {
+
+    private $ignored = [];
+
     /**
      * Maps to your route definition in routes.yaml.
      *
@@ -20,6 +23,8 @@ class SitemapController extends Controller
         $content = Content::all();
         $defaultLocale = default_locale();
 
+        $this->ignored = $this->getConfig('ignore_urls', []);
+
         $content = $content->filter(function (DataContent $entry) {
             /**
              * Check if the entry has a route set up
@@ -27,7 +32,12 @@ class SitemapController extends Controller
              */
             $hasRoute = $entry instanceof Page || $entry->url() !== '/';
 
-            return $entry->published() && $hasRoute;
+            /**
+             * Is ignored?
+             */
+            $isIgnored = in_array($entry->url(), $this->ignored);
+
+            return $entry->published() && $hasRoute && !$isIgnored;
         })->map(function (DataContent $entry) use ($defaultLocale) {
             try {
                 if (method_exists($entry, 'date')) {

@@ -17,6 +17,10 @@ php please update:addons
 
 All you need to do is install the add-on, a sitemap based on all your content will be available at `/sitemap.xml`
 
+## Settings
+
+You can set ignored URLs (relative path) in settings eg. `/some-ignored-url`.
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
